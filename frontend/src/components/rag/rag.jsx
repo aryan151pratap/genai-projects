@@ -1,38 +1,13 @@
-import {
-  CiFolderOn,
-  CiDatabase,
-  CiSearch,
-  CiViewList,
-  CiText,
-  CiChat1,
-  CiSettings,
-  CiCircleQuestion,
-  CiStreamOn,
-  CiSquareChevDown
-} from "react-icons/ci";
 import Upload from "./upload";
 import { useState } from "react";
 import Chroma from "./chroma";
 import Query from "./query";
+import Response from "./response";
 
-const pipeline = [
-	{ name: "documents upload", icon: <CiFolderOn className="w-5 h-5"/> },
-	[
-		{ name: "text chunking", icon: <CiStreamOn className="w-5 h-5"/> },
-		{ name: "embeddings generation", icon: <CiSettings className="w-5 h-5"/> }
-	],
-	[
-		{ name: "store in vector DB", icon: <CiDatabase className="w-5 h-5"/> },
-		{ name: "query embedding", icon: <CiSettings className="w-5 h-5"/> },
-		{ name: "user query", icon: <CiChat1 className="w-5 h-5"/> }
-	],
-	[
-		{ name: "similarity search", icon: <CiSearch className="w-5 h-5"/> },
-		{ name: "retrieve context", icon: <CiViewList className="w-5 h-5"/> }
-	],
-	{ name: "prompt construction", icon: <CiText className="w-5 h-5"/> },
-	{ name: "LLM response", icon: <CiCircleQuestion className="w-5 h-5"/> }
-];
+import pipeline from "./pipeline";
+import { CiSquareChevDown } from "react-icons/ci";
+import { FaAngleRight, FaArrowRight } from "react-icons/fa";
+
 
 function Rag(){
 
@@ -49,11 +24,7 @@ function Rag(){
 
 	return(
 		<div className="w-full overflow-auto p-2 sm:p-4 md:p-6">
-			<div className="py-5 text-white text-lg mb-4 flex flex-row items-center gap-2">
-				<p className="font-bold">Rag</p>
-				<p className="font-semibold">( Retrieval-Augmented Generation )</p>
-			</div>
-			<div className="w-full flex flex-wrap items-center overflow-auto">
+			<div className="w-full flex flex-wrap items-center justify-center overflow-auto">
 				{pipeline.map((i, index) => (
 					<div key={index} className="flex items-center py-1">
 						<div className="rounded-md overflow-hidden">
@@ -70,7 +41,7 @@ function Rag(){
 									<div className="flex flex-col gap-1 bg-black/40 p-1 rounded-md border border-white/20">
 										{i.map((j, index_1) => (
 											<div key={index_1}>
-												<div className="px-2 py-1 flex flex-row gap-1 items-center bg-white/10 rounded">
+												<div className={`px-2 py-1 flex flex-row gap-1 items-center ${j.color ? "bg-"+j.color+"-500/50" : "bg-white/10"} rounded`}>
 													<div>
 														{j.icon}
 													</div>
@@ -82,8 +53,12 @@ function Rag(){
 										))}
 									</div>
 								</div>
-							: 
-								<div className="capitalize flex flex-row items-center gap-1 bg-white/10 px-3 py-1 cursor-pointer"
+							: index == 4 ?
+								<div>
+									<Response task={i}/>
+								</div>
+							:
+								<div className={`capitalize flex flex-row items-center gap-1 ${i.color ? "bg-"+i.color+"-500/50" : "bg-white/10"} px-3 py-1 cursor-pointer`}
 									onClick={() => handleTask(i.name)}
 								>
 									<div className="">
@@ -101,9 +76,17 @@ function Rag(){
 								</div>
 							}
 						</div>
-						{index !== pipeline.length - 1 && (
-							<div className={`w-6 h-[3px] bg-white/30`}></div>
-						)}
+						<div className="">
+							{index !== pipeline.length - 1 && (
+								<div className="flex flex-row items-center">
+									<div className={`w-3 h-[1px] bg-white/30`}>
+									</div>
+									<div className="flex flex-col text-white/30">
+										<FaArrowRight className=""/>
+									</div>
+								</div>
+							)}
+						</div>
 					</div>
 				))}
 			</div>

@@ -1,9 +1,9 @@
-function Chroma({task}) {
+function Response({task}){
 	return(
-		<div className="w-full h-full flex">
-			<div className="flex flex-col gap-1 p-1 bg-black/40 border border-white/20 rounded-md">
-				{task.map((i, index) => (
-					<div key={index}>
+		<div>
+			<div className="flex flex-col gap-1 bg-black/40 p-1 rounded-md border border-white/20">
+				{task.map((i, index_1) => (
+					<div key={index_1}>
 						<div className={`px-2 py-1 flex flex-row gap-1 items-center ${i.color ? "bg-"+i.color+"-300/50" : "bg-white/10"} rounded`}>
 							<div>
 								{i.icon}
@@ -19,4 +19,4 @@ function Chroma({task}) {
 	)
 }
 
-export default Chroma;
+export default Response;

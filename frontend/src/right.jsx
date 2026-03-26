@@ -1,11 +1,9 @@
-import Flow from "./components/rag-flow/flow";
-import Rag from "./components/rag/rag";
+import Page1 from "./components/rag/page1";
 
 function Right(){
 	return(
 		<div className="h-full w-full bg-white/5 rounded-md overflow-auto">
-			<Rag/>
-			<Flow/>
+			<Page1/>
 		</div>
 	)
 }

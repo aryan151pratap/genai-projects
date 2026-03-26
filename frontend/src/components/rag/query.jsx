@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaArrowUp } from "react-icons/fa";
 
 function Query({task}) {
 	const len = task.length-1;
@@ -9,7 +10,7 @@ function Query({task}) {
 			<div className="flex flex-col gap-1 rounded bg-black/50 p-1 border border-white/20 rounded-md">
 				{task.slice(0, len).map((i, index) => (
 					<div key={index}>
-						<div className="px-2 py-1 flex flex-row gap-1 items-center bg-white/10 rounded">
+						<div className={`px-2 py-1 flex flex-row gap-1 items-center ${i.color ? "bg-"+i.color+"-300/50" : "bg-white/10"} rounded`}>
 							<div>
 								{i.icon}
 							</div>
@@ -20,9 +21,11 @@ function Query({task}) {
 					</div>
 				))}
 			</div>
-			<div className="h-10 w-[3px] bg-white/30 "></div>
+			<FaArrowUp className="text-white/30"/>
+			<div className="h-10 w-[1px] bg-white/30 ">
+			</div>
 			<div className="w-full">
-				<div className="px-2 py-1 flex flex-row gap-1 items-center bg-white/10 rounded">
+				<div className={`px-2 py-1 flex flex-row gap-1 items-center ${task[len].color ? "bg-"+task[len].color+"-300/50" : "bg-white/10"} rounded`}>
 					<div>
 						{task[len].icon}
 					</div>
