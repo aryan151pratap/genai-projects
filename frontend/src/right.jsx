@@ -5,7 +5,7 @@ function Right(){
 	return(
 		<div className="h-full w-full bg-white/5 rounded-md overflow-auto">
 			<Rag/>
-			{/* <Flow/> */}
+			<Flow/>
 		</div>
 	)
 }
