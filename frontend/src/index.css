@@ -1,0 +1,19 @@
+/* Apply globally or to specific container */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2a2ab7; /* thumb color */
+  border-radius: 4px;
+  border: 2px solid #0f0f0fb9; /* spacing effect */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}
+
+::-webkit-scrollbar-corner {
+  background: #0f0f0f;
+}
