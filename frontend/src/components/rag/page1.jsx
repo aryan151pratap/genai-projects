@@ -23,7 +23,7 @@ function Page1(){
 
 	return(
 		<div className="w-full p-2 sm:p-4 md:p-6 overflow-auto">
-			<div className="w-full flex flex-row">
+			<div className="relative w-full flex flex-row">
 				{pipeline.map((i, index) => (
 					<div key={index} className="shrink-0 flex items-center py-1">
 						<div className="">

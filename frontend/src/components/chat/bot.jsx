@@ -7,7 +7,7 @@ import Files from "./files";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-function Bot(){
+function Bot({chatId, user_data}){
 	const [suggest, setSuggest] = useState([
 		{ label: "Generate Image", value: "generate_image" },
 		{ label: "Debug Code", value: "debug_code" },
@@ -19,7 +19,7 @@ function Bot(){
 	]);
 	const [input, setInput] = useState("");
 	const [down, setDown] = useState(false);
-	const [role, setRole] = useState();
+	const [role, setRole] = useState("");
 	const [output, setOutput] = useState([]);
 	const [image, setImage] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -39,7 +39,7 @@ function Bot(){
 
 	useEffect(() => {
 		if(suggest.length == 0) return;
-		setRole(suggest[0]);
+		setRole("");
 	}, [])
 
 	const handleSubmit = async function(){
@@ -54,15 +54,14 @@ function Bot(){
 			formData.append("role", user.role);
 			formData.append("content", user.content)
 			formData.append("action", role.value);
+			formData.append("chat_id", chatId);
+			formData.append("user_id", user_data ? user_data?.user_id : "");
 			image.forEach(file => {
 				formData.append("files", file);
 			});
 			setImage([]);
 			const res = await fetch(`${API_URL}/bot`, {
 				method: "POST",
-				// headers: {
-				// 	"Content-Type": "application/json"
-				// },
 				body: formData
 			})
 			const result = await res.json();
@@ -98,10 +97,6 @@ function Bot(){
 	
 	return(
 		<div className="h-full flex flex-col overflow-auto">
-			<div className="p-4 sticky top-0 text-xl font-semibold">
-				Assistant
-			</div>
-
 			{output.length > 0 &&
 				<div className="w-full p-4 flex justify-center overflow-auto">
 					<Output output={output} loading={loading}/>
@@ -114,7 +109,7 @@ function Bot(){
 				<div className={`p-2 rounded md:backdrop-blur-xs sm:backdrop-blur-md md:w-[75%] duration-500 flex justify-center`}>
 					<div className={`mb-4 md:w-[90%] flex ${down ? "md:flex-row items-end" : "items-center"} flex-col md:gap-3 gap-2 justify-center`}>
 
-						<div className={`${down ? "w-full" : "w-fit"} flex flex-row items-center justify-center gap-2`}>
+						<div className={`relative ${down ? "w-full" : "w-fit"} flex flex-row items-center justify-center gap-2`}>
 							<div className="w-full items-center flex flex-col">
 								{role &&
 									<div className="mr-auto group w-fit bg-white/5 overflow-hidden border border-white/20 rounded-bl-xs rounded-lg flex flex-row text-xs">
@@ -154,7 +149,7 @@ function Bot(){
 											placeholder="Ask your AI..."
 										></textarea>
 
-										<div className="mt-auto w-fit flex flex flex-col items-end relative p-1">
+										<div className="mt-auto w-fit flex flex flex-col items-end p-1">
 											<div className="w-fit p-1 bg-white/10 rounded rounded-br-xl hover:bg-white/15 cursor-pointer border-1 border-white/15 hover:border-white/20 transition durstion-300"
 												onClick={() => setFiles(true)}
 											>
@@ -162,7 +157,7 @@ function Bot(){
 											</div>
 											{files &&
 												<div className="p-2 md:w-[200px] sm:w-[200px] w-[150px] absolute z-100 inset-0 top-auto left-auto">
-													<Files setOpen={setFiles} setMedia={setImage}/>
+													<Files setOpen={setFiles} media={image} setMedia={setImage}/>
 												</div>
 											}
 										</div>

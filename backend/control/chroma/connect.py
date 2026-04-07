@@ -4,7 +4,6 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from datetime import datetime
 import os
 
-# Global cache
 _vector_db = None
 _embedding = None
 
@@ -41,7 +40,7 @@ def get_vector_db():
 
     return _vector_db
 
-get_vector_db()
+# get_vector_db()
 
 def save_chat(role, content):
     vector_db = get_vector_db()

@@ -27,9 +27,9 @@ const tab = [
 		value: [
 			{ name: "chat", icon: <CiChat1 className="w-5 h-5"/> },
 			{ name: "rag", icon: <CiDatabase className="w-5 h-5"/> },
-			{ name: "agent builder", icon: <CiSettings className="w-5 h-5"/> },
-			{ name: "images", icon: <CiImageOn className="w-5 h-5"/> },
-			{ name: "audios", icon: <CiMicrophoneOn className="w-5 h-5"/> }
+			// { name: "agent builder", icon: <CiSettings className="w-5 h-5"/> },
+			// { name: "images", icon: <CiImageOn className="w-5 h-5"/> },
+			// { name: "audios", icon: <CiMicrophoneOn className="w-5 h-5"/> }
 		]
 	},
 	{

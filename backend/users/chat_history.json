@@ -1,0 +1,14 @@
+{
+    "": {
+        "chat_1775533513060": [
+            {
+                "role": "user",
+                "content": "give summary?"
+            },
+            {
+                "role": "bot",
+                "content": "Title: Aryan Pratap \u2013 B.Tech CS (AI/ML & IoT) Student Portfolio\nKey Points:\n  - Full\u2011stack web development using Node.js, EJS, React, MongoDB; projects deployed online.\n  - Machine learning models for image classification with Python, pandas, NumPy.\n  - IoT and embedded work: smart door with ESP32, RFID, ultrasonic, IR sensors, OLED display.\n  - Additional projects: Portfolio showcase, MongoDB Atlas dashboard, AgroTech platform, hand\u2011gesture & face\u2011recognition system.\nSummary: Aryan Pratap is a Computer Science undergraduate at GLA University focusing on AI/ML and IoT. He has created several full\u2011stack applications\u2014including a portfolio site, a MongoDB monitoring dashboard, and an agriculture marketplace\u2014using Node.js, React, and MongoDB, all deployed publicly. Academically, he builds image\u2011classification ML models with Python libraries. In IoT, he engineered a secure smart door with multi\u2011sensor integration and a web\u2011based ESP32 controller. He also developed hand\u2011gesture and face\u2011recognition solutions using OpenCV. His technical repertoire covers Python, Java, JavaScript, React, Node.js, Flask, FastAPI, and cloud development tools."
+            }
+        ]
+    }
+}

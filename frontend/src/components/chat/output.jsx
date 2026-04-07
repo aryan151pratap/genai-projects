@@ -16,7 +16,19 @@ export default function Output({ output, loading }) {
 							className={`font-sans px-2 md:px-3 p-1 ${
 								i.role == "user" ? "text-sm max-w-[60%] text-wrap overflow-auto rounded-lg rounded-tr-xs w-fit ml-auto bg-white/5" : "max-w-[90%] mr-auto mb-10"
 							}`}
-							>
+						>
+							{i?.content?.image ? (
+								<img
+									src={`data:image/jpeg;base64,${i?.content?.image}`}
+									alt=""
+									className="w-40 h-40 object-cover rounded-lg"
+								/>
+							) : i?.content?.image_error ? (
+								<p className="text-red-400 text-xs">
+									{/* Image failed: {i?.content?.image_error} */}
+									{/* <div dangerouslySetInnerHTML={{ __html: i?.content?.image_error }} /> */}
+								</p>
+							) : null}
 							<div className="w-fit text-wrap">
 								<Content i={i}/>
 							</div>
@@ -39,7 +51,9 @@ const Content = function({i}){
 	return(
 		<div className="w-fit text-wrap">
 			{typeof i.content === "string" ? (
-				i.content
+				<div>
+					{i.content}
+				</div>
 			) : (
 				Object.entries(i.content).map(([key, value], idx) => (
 				<div key={idx} className="mb-2">

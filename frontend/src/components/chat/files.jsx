@@ -3,7 +3,7 @@ import { CiImport } from "react-icons/ci";
 import { FaTimes, FaUpload } from "react-icons/fa";
 import { FiUpload } from "react-icons/fi";
 
-export default function Files({setOpen, setMedia}) {
+export default function Files({setOpen, media, setMedia}) {
 	const [files, setFiles] = useState([]);
 	const [url, setUrl] = useState("");
 
@@ -14,9 +14,9 @@ export default function Files({setOpen, setMedia}) {
 	};
 
 	const handleSubmit = () => {
-		console.log("URL:", url);
-		console.log("Files:", files);
-		setMedia(e => [...e, ...files]);
+		const mediaSet = new Set(media.map((i) => i.name));
+		const data = files.filter((i) => !mediaSet.has(i.name));
+		setMedia(e => [...e, ...data]);
 		setOpen(false);
 	};
 

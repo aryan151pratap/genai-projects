@@ -35,7 +35,7 @@ def upload(files, url=None):
 		elif filename.endswith(".pdf"):
 			docs.extend(load_pdf_file(path))
 
-	if url:
+	if url!=None and url!="":
 		docs.extend(load_web(url))
 			
 	texts = []
