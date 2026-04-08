@@ -24,7 +24,7 @@ export default function History(){
 
 	return(
 		<div className={`md:w-[250px] w-[200px] h-full`}>
-			<div className="capitalize p-2 flex flex-row gap-2 items-center border-b border-white/20">
+			<div className="capitalize p-2 flex flex-row gap-2 items-center justify-center border-b border-white/20">
 				<div className="">
 					<FaHistory/>
 				</div>

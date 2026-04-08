@@ -4,9 +4,7 @@ from control.llm import chat
 from control.chroma import connect
 from control.chroma import file
 from control.reader import fileReader
-from control.llm import image
 from control.llm import huggFace
-from control.llm import replicate
 
 bot = Blueprint("bot", __name__)
 s_folder = "system/"

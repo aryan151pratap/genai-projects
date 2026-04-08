@@ -50,7 +50,6 @@ function Bot({chatId, user_data}){
 			setOutput(e => [...e, user]);
 			setInput("");
 			const formData = new FormData();
-
 			formData.append("role", user.role);
 			formData.append("content", user.content)
 			formData.append("action", role.value);
