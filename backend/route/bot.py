@@ -5,19 +5,22 @@ from control.chroma import connect
 from control.chroma import file
 from control.reader import fileReader
 from control.llm import huggFace
+from models.message import get_chat_messages, save_message, get_user_chats
 
 bot = Blueprint("bot", __name__)
 s_folder = "system/"
 system_prompt = "system.txt"
 
-def get_action(action):
+def get_action(message, action):
 	global system_prompt
 	if action == "summarize_text":
-		return "summarization.txt"
+		prompt_file = "summarization.txt"
 	elif action == "generate_image":
-		return "imageGeneration.txt"
+		prompt_file = "imageGeneration.txt"
 	else:
-		return system_prompt
+		prompt_file = system_prompt
+
+	return chat.history(message, s_folder + prompt_file)
 
 def get_image(res, action):
 	if action == "generate_image":
@@ -32,7 +35,6 @@ def get_image(res, action):
 
 @bot.route("/bot", methods=["POST"])
 def bot_reply():
-	global system_prompt
 
 	data = request.form
 	role = data.get("role")
@@ -49,30 +51,65 @@ def bot_reply():
 		text += fileReader.upload(files, url)
 		print(text)
 
-	current_prompt = get_action(action)
+	prompt = get_action(message, action)	
+	message += f"\n\n{text}"
 
-	prompt = chat.history(message, s_folder+current_prompt)
-	message += f"""
-
-{text}
-"""
-	con = file.get_chat_history(user_id, chat_id)
+	con = get_chat_messages(user_id, chat_id)
 	
 	content = chat.get_response(prompt, message)
-	content = json.loads(content)
-	data = content["memory"]
+	try:
+		content = json.loads(content)
+	except Exception:
+		content = {
+			"bot": content,
+			"memory": {
+				"save": False,
+				"reason": "Invalid JSON fallback",
+				"content": ""
+			}
+		}
+	
+
+	memory_data = content["memory"]
 	res = content["bot"]
 
-	file.add_message(user_id, chat_id, role, msg)
-	file.add_message(user_id, chat_id, "bot", res)
-
-	if data["save"]:
-		connect.save_chat("user", message)
-		connect.save_chat("bot", data["content"])
-
 	res = get_image(res, action)
+	
+	if user_id:
+		save_message(user_id, chat_id, role, msg)
+		save_message(user_id, chat_id, "bot", res)
+
+	if memory_data["save"]:
+		connect.save_chat("user", message)
+		connect.save_chat("bot", memory_data["content"])
+
 
 	return jsonify({
 		"role": "bot",
 		"content": res
+	})
+
+
+
+@bot.route("/history", methods=["POST"])
+def get_history():
+	data = request.get_json()
+	user_id = data.get("user_id")
+	print(user_id)
+
+	result = get_user_chats(user_id)
+
+	return jsonify({
+		"history": result
+	})
+
+@bot.route("/chat", methods=["POST"])
+def get_chatHistory():
+	data = request.get_json()
+	user_id = data.get("user_id")
+	chat_id = data.get("chat_id")
+	print(user_id, chat_id)
+	result = get_chat_messages(user_id, chat_id)
+	return jsonify({
+		"data": result
 	})

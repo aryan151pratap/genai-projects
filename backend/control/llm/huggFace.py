@@ -1,17 +1,27 @@
 import base64
 import io
 import os
+import requests
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient
 
 load_dotenv()
+
+MEDIA_SERVER = os.getenv("MEDIA_API")
 
 api_key = os.getenv("Hugging_face")  # better naming
 
 def convert_to_base64(pil_image):
     buffer = io.BytesIO()
     pil_image.save(buffer, format="PNG")
-    return base64.b64encode(buffer.getvalue()).decode("utf-8")
+    buffer.seek(0)
+
+    files = {
+        "file": ("generated.png", buffer, "image/png")
+    }
+    response = requests.post(MEDIA_SERVER+"/images", files=files)
+    res = response.json()
+    return res["url"]
 
 def generate_image(prompt):
     client = InferenceClient(

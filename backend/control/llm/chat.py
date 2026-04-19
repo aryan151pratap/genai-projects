@@ -4,6 +4,10 @@ import os
 from control.chroma import connect
 from control.chroma import file
 
+from langchain.agents import create_agent
+from langchain_core.tools import tool
+from langchain_groq import ChatGroq
+from control.reader import toolList
 load_dotenv()
 groq_key = os.getenv("GROQ_api_key")
 
@@ -22,15 +26,50 @@ Use the Hisotry if needed:
 
 	return system
     
-def get_response(prompt, user_text):
-    c = client()
 
-    res = c.chat.completions.create(
+def get_agent(system_prompt):
+
+    llm = ChatGroq(
+        api_key=groq_key,
         model="openai/gpt-oss-120b",
-        messages=[
-            {"role": "system", "content": prompt},
-            {"role": "user", "content": user_text}
-        ]
+        temperature=0.7,
+        tool_choice="auto"
     )
 
-    return res.choices[0].message.content
+    tools = toolList.get_tool()
+
+    agent_executor = create_agent(
+        model=llm,
+        tools=tools,
+        system_prompt=system_prompt
+    )
+
+    return agent_executor
+
+def get_response(systemPrompt, message):
+    agent = get_agent(systemPrompt)
+
+    response = agent.invoke({
+        "messages": [
+            {"role": "user", "content": message}
+        ]
+    })
+    print("\n\n")
+    print("response\n\n")
+    print(response)
+    print("\n\n")
+    return response["messages"][-1].content
+
+    
+# def get_response(prompt, user_text):
+#     c = client()
+
+#     res = c.chat.completions.create(
+#         model="openai/gpt-oss-120b",
+#         messages=[
+#             {"role": "system", "content": prompt},
+#             {"role": "user", "content": user_text}
+#         ]
+#     )
+
+#     return res.choices[0].message.content

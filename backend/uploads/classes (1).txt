@@ -1,0 +1,14 @@
+car
+number_plate
+blur_number_plate
+two_wheeler
+auto
+bus
+truck
+
+
+auto -> number_plate
+bike -> auto
+number_plate -> two_wheeler
+
+

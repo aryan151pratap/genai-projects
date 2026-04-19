@@ -21,7 +21,7 @@ export default function Files({setOpen, media, setMedia}) {
 	};
 
 	return (
-		<div className="w-fit text-sm h-full bg-black border border-white/20 shadow-xl shadow-white/5 flex flex-col gap-1 rounded-xl border border-white/10">
+		<div className="w-fit text-sm h-full bg-black border border-white/20 shadow-xl shadow-black/50 flex flex-col gap-1 rounded-xl border border-white/10">
 			<div className="px-3 p-2 text-xs flex flex-row gap-2 items-center border-b border-white/20">
 				<FaUpload className="text-white/70 bg-white/10 rounded p-1 w-5 h-5"/>
 				Upload files
