@@ -47,7 +47,7 @@ def get_agent(system_prompt):
     return agent_executor
 
 def get_response(systemPrompt, message):
-    agent = get_agent(systemPrompt)
+    agent = get_agent(systemPrompt) 
 
     response = agent.invoke({
         "messages": [
@@ -58,18 +58,35 @@ def get_response(systemPrompt, message):
     print("response\n\n")
     print(response)
     print("\n\n")
-    return response["messages"][-1].content
+    res = response["messages"][-1].content
+    return call_for_json_format(res)
 
     
-# def get_response(prompt, user_text):
-#     c = client()
+def call_for_json_format(text):
+    c = client()
 
-#     res = c.chat.completions.create(
-#         model="openai/gpt-oss-120b",
-#         messages=[
-#             {"role": "system", "content": prompt},
-#             {"role": "user", "content": user_text}
-#         ]
-#     )
+    prompt = """
+Convert the following response into STRICT JSON.
 
-#     return res.choices[0].message.content
+Return ONLY valid JSON. No explanation.
+
+Format:
+{
+  "bot": "response",
+  "memory": {
+    "save": true/false,
+    "reason": "short reason",
+    "content": "important info"
+  }
+}
+"""
+
+    res = c.chat.completions.create(
+        model="openai/gpt-oss-120b",
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": text}
+        ]
+    )
+
+    return res.choices[0].message.content

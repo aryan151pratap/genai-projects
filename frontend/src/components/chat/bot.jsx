@@ -4,6 +4,7 @@ import { FaTimes } from "react-icons/fa";
 import Output from "./output";
 import Image_show from "./image";
 import Files from "./files";
+import Audio from "./audio";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -24,6 +25,7 @@ function Bot({chatId, user_data}){
 	const [image, setImage] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [files, setFiles] = useState(false);
+	const [audio, setAudio] = useState(null);
 	const textareaRef = useRef(null);
 
 	useEffect(() => {
@@ -86,6 +88,9 @@ function Bot({chatId, user_data}){
 			image.forEach(file => {
 				formData.append("files", file);
 			});
+			if (audio) {
+				formData.append("audio", audio, "recording.webm");
+			}
 			setImage([]);
 			const res = await fetch(`${API_URL}/bot`, {
 				method: "POST",
@@ -198,6 +203,9 @@ function Bot({chatId, user_data}){
 								>
 									<CiTurnL1 className="h-6 w-6"/>
 								</button>
+								<div>
+									<Audio setAudio={setAudio}/>
+								</div>
 							</div>
 							<div className={`${down ? "md:max-w-full" : "sm:max-w-[500px]"} flex flex-wrap gap-1 justify-center`}>
 								{suggest.map((i, index) => (

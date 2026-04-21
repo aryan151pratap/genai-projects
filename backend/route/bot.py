@@ -6,6 +6,7 @@ from control.chroma import file
 from control.reader import fileReader
 from control.llm import huggFace
 from models.message import get_chat_messages, save_message, get_user_chats
+from control.reader import stt
 
 bot = Blueprint("bot", __name__)
 s_folder = "system/"
@@ -45,17 +46,20 @@ def bot_reply():
 	action = data.get("action")
 	url = data.get("url")
 	files = request.files.getlist("files")
-
+	audio = request.files.get("audio") 
 	text = ""
 	if len(files) > 0:
 		text += fileReader.upload(files, url)
 		print(text)
+	
+	if audio:
+		message += stt.speech_to_text(audio)
 
 	prompt = get_action(message, action)	
 	message += f"\n\n{text}"
 
 	con = get_chat_messages(user_id, chat_id)
-	
+	print("\n\n" + message + "\n\n")
 	content = chat.get_response(prompt, message)
 	try:
 		content = json.loads(content)
